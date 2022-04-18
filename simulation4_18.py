@@ -15,18 +15,22 @@ physicsClient = p.connect(p.GUI)#or p.DIRECT for non-graphical version
 # p.setTimeStep(SIM_TIMESTEP)
 p.setAdditionalSearchPath(pybullet_data.getDataPath()) #optionally
 # load urdf model 
-planeId = p.loadURDF("urdf_assem4_1.urdf", useFixedBase = True)
+planeId = p.loadURDF("urdf_assem4_18.urdf", useFixedBase = True)
 # force parameter 
 idff = p.addUserDebugParameter("Test force",-2.96, 2.96,0) 
 # add table environment 
-tableUid= p.loadURDF(os.path.join("table/table.urdf"),basePosition=[0.5,0,-0.65])
+tableUid= p.loadURDF(os.path.join("table/table.urdf"),basePosition=[0.5,0,-0.75])
 #add tray 
 trayUid = p.loadURDF(os.path.join("tray/traybox.urdf"),basePosition=[0.65,0,0])
 p.setGravity(0,0,-10)
 #banana:
 flags = p.URDF_USE_INERTIA_FROM_FILE
 obj_id = p.loadURDF(os.path.join(ycb_objects.getDataPath(),'YcbBanana', "model.urdf"),[0.21, -0.10, 0.1], flags=flags)
-p.resetDebugVisualizerCamera(cameraDistance=1.5,cameraYaw=0,cameraPitch=-40,cameraTargetPosition=[0.55,-0.35,0.2])
+obj_id2 = p.loadURDF(os.path.join(ycb_objects.getDataPath(),'YcbPear', "model.urdf"),[0.65,0,0], flags=flags)
+obj_id3 = p.loadURDF(os.path.join(ycb_objects.getDataPath(),'YcbTennisBall', "model.urdf"),[0.65,0,0], flags=flags)
+obj_id4 = p.loadURDF(os.path.join(ycb_objects.getDataPath(),'YcbMediumClamp', "model.urdf"),[0.65,0,0], flags=flags)
+obj_id5 = p.loadURDF(os.path.join(ycb_objects.getDataPath(),'YcbPowerDrill', "model.urdf"),[0.65,0,0], flags=flags)
+p.resetDebugVisualizerCamera(cameraDistance=1.5,cameraYaw=0,cameraPitch=-40,cameraTargetPosition=[0.50,-0.35,0.2])
 
 state_durations = [1,1,1,1]
 control_dt= 1/240
@@ -74,7 +78,7 @@ while True:
 
         jointFrictionForces = 0
         for joint in range(p.getNumJoints(planeId)):
-            p.setJointMotorControl2(planeId,joint,p.VELOCITY_CONTROL, targetVelocity=5.2, force = 0.5)
+            p.setJointMotorControl2(planeId,joint,p.VELOCITY_CONTROL, targetVelocity=5.2, force = 2.5)
             # pend = [0,1.1,0.1]
             # Fend = [p.readUserDebugParameter(idff),0,0]
             # p.applyExternalForce(planeId,1,Fend, pend, p.WORLD_FRAME)
@@ -89,7 +93,7 @@ while True:
                         p.POSITION_CONTROL,-math.pi/2.+.15)
         jointFrictionForces = 0
         for joint in range(p.getNumJoints(planeId)):
-            p.setJointMotorControl2(planeId,joint,p.VELOCITY_CONTROL, targetVelocity=5.2, force = 1.5)
+            p.setJointMotorControl2(planeId,joint,p.VELOCITY_CONTROL, targetVelocity=5.2, force = 2.5)
         
         # pend = [0,1.1,0.1]
         # Fend = [p.readUserDebugParameter(idff),0,0]
