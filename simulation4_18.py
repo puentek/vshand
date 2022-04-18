@@ -7,12 +7,6 @@ import numpy as np
 import math 
 physicsClient = p.connect(p.GUI)#or p.DIRECT for non-graphical version
 
-# p.configureDebugVisualizer(p.COV_ENABLE_WIREFRAME, 0)
-# p.configureDebugVisualizer(p.COV_ENABLE_SHADOWS, 0)
-# p.configureDebugVisualizer(p.COV_ENABLE_GUI, 1)
-# p.setRealTimeSimulation(0)
-# SIM_TIMESTEP = 1
-# p.setTimeStep(SIM_TIMESTEP)
 p.setAdditionalSearchPath(pybullet_data.getDataPath()) #optionally
 # load urdf model 
 planeId = p.loadURDF("urdf_assem4_18.urdf", useFixedBase = True)
@@ -37,22 +31,6 @@ control_dt= 1/240
 p.setTimeStep= control_dt
 state_t = 0
 current_state=0
-#file added
-
-# while True:
-#     try:
-#         #apply force to last link:
-#         pend = [0,1.1,0.1]
-#         Fend = [p.readUserDebugParameter(idff),0,0]
-#         p.applyExternalForce(planeId,1,Fend, pend, p.WORLD_FRAME)
-#         p.addUserDebugLine(pend,np.array(pend)+100*np.array(Fend), lineColorRGB=[1,0,0],lifeTime=0.1,lineWidth=2)
-#         p.stepSimulation()
-#         time.sleep(SIM_TIMESTEP*1e-3)
-#         
-    
-#     except:
-#         raise 
-
 
 while True:
     state_t += control_dt
