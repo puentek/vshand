@@ -19,7 +19,7 @@ trayUid = p.loadURDF(os.path.join("tray/traybox.urdf"),basePosition=[0.65,0,0])
 p.setGravity(0,0,-10)
 #banana:
 flags = p.URDF_USE_INERTIA_FROM_FILE
-obj_id = p.loadURDF(os.path.join(ycb_objects.getDataPath(),'YcbBanana', "model.urdf"),[0.21, -0.10, 0.1], flags=flags)
+obj_id = p.loadURDF(os.path.join(ycb_objects.getDataPath(),'YcbBanana', "model.urdf"),[0.21, 0, 0.1], flags=flags)
 obj_id2 = p.loadURDF(os.path.join(ycb_objects.getDataPath(),'YcbPear', "model.urdf"),[0.65,0,0], flags=flags)
 obj_id3 = p.loadURDF(os.path.join(ycb_objects.getDataPath(),'YcbTennisBall', "model.urdf"),[0.65,0,0], flags=flags)
 obj_id4 = p.loadURDF(os.path.join(ycb_objects.getDataPath(),'YcbMediumClamp', "model.urdf"),[0.65,0,0], flags=flags)
@@ -56,13 +56,14 @@ while True:
 
         jointFrictionForces = 0
         for joint in range(p.getNumJoints(planeId)):
-            p.setJointMotorControl2(planeId,joint,p.VELOCITY_CONTROL, targetVelocity=5.2, force = 2.5)
-            # pend = [0,1.1,0.1]
-            # Fend = [p.readUserDebugParameter(idff),0,0]
-            # p.applyExternalForce(planeId,1,Fend, pend, p.WORLD_FRAME)
-            # p.addUserDebugLine(pend,np.array(pend)+100*np.array(Fend), lineColorRGB=[1,0,0],lifeTime=0.1,lineWidth=2)
-            # p.stepSimulation()
-            # time.sleep(1*1e-3)
+            torque= joint*0.06
+            p.setJointMotorControl2(planeId,joint,p.TORQUE_CONTROL, force = torque)
+    #         # pend = [0,1.1,0.1]
+    #         # Fend = [p.readUserDebugParameter(idff),0,0]
+    #         # p.applyExternalForce(planeId,1,Fend, pend, p.WORLD_FRAME)
+    #         # p.addUserDebugLine(pend,np.array(pend)+100*np.array(Fend), lineColorRGB=[1,0,0],lifeTime=0.1,lineWidth=2)
+    #         # p.stepSimulation()
+    #         # time.sleep(1*1e-3)
     
     if current_state == 1:
         p.setJointMotorControl2(planeId, 1, 
@@ -71,39 +72,41 @@ while True:
                         p.POSITION_CONTROL,-math.pi/2.+.15)
         jointFrictionForces = 0
         for joint in range(p.getNumJoints(planeId)):
-            p.setJointMotorControl2(planeId,joint,p.VELOCITY_CONTROL, targetVelocity=5.2, force = 2.5)
+            torque= joint*2
+            p.setJointMotorControl2(planeId,joint,p.TORQUE_CONTROL, force = torque)
+            # p.setJointMotorControl2(planeId,joint,p.VELOCITY_CONTROL, targetVelocity=0.2, force = 2.96)
         
-        # pend = [0,1.1,0.1]
-        # Fend = [p.readUserDebugParameter(idff),0,0]
-        # p.applyExternalForce(planeId,1,Fend, pend, p.WORLD_FRAME)
-        # p.addUserDebugLine(pend,np.array(pend)+100*np.array(Fend), lineColorRGB=[1,0,0],lifeTime=0.1,lineWidth=2)
-        # p.stepSimulation()
-        # time.sleep(1*1e-3)
+    #     # pend = [0,1.1,0.1]
+    #     # Fend = [p.readUserDebugParameter(idff),0,0]
+    #     # p.applyExternalForce(planeId,1,Fend, pend, p.WORLD_FRAME)
+    #     # p.addUserDebugLine(pend,np.array(pend)+100*np.array(Fend), lineColorRGB=[1,0,0],lifeTime=0.1,lineWidth=2)
+    #     # p.stepSimulation()
+    #     # time.sleep(1*1e-3)
 
-    if current_state == 2:
-        p.setJointMotorControl2(planeId, 1, 
-                        p.POSITION_CONTROL,math.pi/4.-1)
-        p.setJointMotorControl2(planeId, 3, 
-                        p.POSITION_CONTROL,-math.pi/2.-1)
-        jointFrictionForces = 0
-        for joint in range(p.getNumJoints(planeId)):
-            p.setJointMotorControl2(planeId,joint,p.VELOCITY_CONTROL, targetVelocity=5.2, force = 2.96)
+    # if current_state == 2:
+    #     p.setJointMotorControl2(planeId, 1, 
+    #                     p.POSITION_CONTROL,math.pi/4.-1)
+    #     p.setJointMotorControl2(planeId, 3, 
+    #                     p.POSITION_CONTROL,-math.pi/2.-1)
+    #     jointFrictionForces = 0
+    #     for joint in range(p.getNumJoints(planeId)):
+    #         p.setJointMotorControl2(planeId,joint,p.VELOCITY_CONTROL, targetVelocity=0.2, force = 2.96)
 
-        # pend = [0,1.1,0.1]
-        # Fend = [p.readUserDebugParameter(idff),0,0]
-        # p.applyExternalForce(planeId,1,Fend, pend, p.WORLD_FRAME)
-        # p.addUserDebugLine(pend,np.array(pend)+100*np.array(Fend), lineColorRGB=[1,0,0],lifeTime=0.1,lineWidth=2)
-        # p.stepSimulation()
-        # time.sleep(1*1e-3)
+    #     # pend = [0,1.1,0.1]
+    #     # Fend = [p.readUserDebugParameter(idff),0,0]
+    #     # p.applyExternalForce(planeId,1,Fend, pend, p.WORLD_FRAME)
+    #     # p.addUserDebugLine(pend,np.array(pend)+100*np.array(Fend), lineColorRGB=[1,0,0],lifeTime=0.1,lineWidth=2)
+    #     # p.stepSimulation()
+    #     # time.sleep(1*1e-3)
     
-    if state_t >state_durations[current_state]:
-        current_state += 1
-        if current_state >= len(state_durations):
-            current_state = 0
-        state_t = 0
-        jointFrictionForces = 0
-        for joint in range(p.getNumJoints(planeId)):
-            p.setJointMotorControl2(planeId,joint,p.VELOCITY_CONTROL, targetVelocity=0, force = 0)
+    # if state_t >state_durations[current_state]:
+    #     current_state += 1
+    #     if current_state >= len(state_durations):
+    #         current_state = 0
+    #     state_t = 0
+    #     jointFrictionForces = 0
+    #     for joint in range(p.getNumJoints(planeId)):
+    #         p.setJointMotorControl2(planeId,joint,p.VELOCITY_CONTROL, targetVelocity=2.2, force = 2.96)
 
     p.stepSimulation()
 
